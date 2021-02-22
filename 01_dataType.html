@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Type</title>
+</head>
+<body>
+    <h1>Data Type</h1>
+    <p id ="p1">
+        변수에 자료형이 미리 정해지지 않고, 값 대입시에 자료형이 결정된다.
+    </p>
+    <script>
+        // 함수 작성
+        function test1(){
+            // 변수 선언 var키워드
+            var name = '홍길동'; //문자열은 "", ''로 표현
+            var age = 20; //숫자형
+            var bool = false; //논리형
+            var hobby = ['축구','야구','농구']; //문자열 배열 //객체형으로 표현
+            var user = { //객체형 //key-value 형식
+                id : 'honggd',
+                pwd : '1234',
+                email : 'honggd@naver.com'
+            };
+            // console.log(name, typeof name);
+            // console.log(age, typeof age);
+            // console.log(bool, typeof bool);
+            // console.log(hobby, typeof hobby);
+            // console.log(user, typeof user);
+            // console.log(hobby[0], hobby[1], hobby[2]); //index사용가능
+            // console.log(user.id, user.pwd, user.email); //key로 value불러오기
+
+            function a() {
+
+            }
+            // console.log(a, typeof a); //"function"타입
+
+            //변수만 선언하고 확인해보기
+            var temp;
+            console.log(temp, typeof temp); //undefined 타입
+            temp = 100; //값 대입
+            console.log(temp, typeof temp); //number타입
+
+            //선언하지 않은 변수
+            // console.log(never); //ReferenceError: never is not defined
+            console.log(typeof never); //undefined
+
+            //null : object타입에 값이 없는 경우
+            //태그를 객체로 가질 수 있다
+            var elem = document.getElementById("p1");
+            console.log(elem, typeof elem);
+            elem = document.getElementById("p11111");
+            console.log(elem, typeof elem); //null "object"
+            
+        }
+        // 함수 호출
+        test1();
+    </script>
+    
+</body>
+</html>

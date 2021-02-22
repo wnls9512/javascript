@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>함수-클로져</title>
+</head>
+<body>
+    <h1>함수-클로져</h1>
+    <h2>자유변수</h2>
+    <p>함수의 지역볌위에서 정의되지 않은 변수</p>
+
+    <script>
+        //자유변수
+        let hi = "안녕";
+        // (function(name){
+        //     let word = hi + ", " + name;
+        //     let greet = "반가워 :)";
+        //     let say = word + "\n" + greet;
+        //     alert(say);
+        // })('철수');
+    </script>
+
+    <h2>Closure</h2>
+    <p>클로져함수는 참조하는 환경을 가진 함수</p>
+    <p>자유변수를 가지고 있는 함수</p>
+
+    <script>
+    function funcX(){
+        //자유변수
+        var num = 100;
+        return function(){
+            console.log('num=',num); //자유변수까지 함께 리턴
+        }
+    }
+    var num = 200;
+    var myf = funcX();
+    myf();            //100
+    </script>
+
+    <h2>카운터함수</h2>
+    <ul>
+        <li>전역변수 카운터 : <input type="button" value="실행" onclick="globalVarCounter();"></li>
+        <li>자유변수 카운터 : <input type="button" value="실행" onclick="closureCounter();"></li>
+    </ul>
+
+    <script>
+        let closureCounter = makeCounter();
+
+        function makeCounter(){
+            let cnt = 0;
+            //cnt에 직접접근 불가 
+            return function(){
+                console.log("클로져 카운터 : " + ++cnt);
+            }
+        }
+
+        var cnt = 0;
+        //window 접근 가능
+        function globalVarCounter(){
+            console.log("전역변수카운터 : " + ++cnt);
+        }
+    </script>
+
+    <h2>@실습문제: 사용자 입력값을 더하는 가산기(클로져)</h2>
+    <input type="number" id="userNum">
+    <input type="button" value="더하기" onclick="closureAdder();">
+
+    <script>
+        let closureAdder = makeAdder();
+
+        function makeAdder(){
+            let sum = 0;
+            return function(){
+                sum += Number(userNum.value);
+                userNum.value = '' //초기화
+                userNum.focus(); //포커스이벤트를 실행
+                console.log(sum);
+            }
+        }
+    </script>
+
+    <h4>@실습문제1 : 눈코딩</h4>
+    <button onclick="funcX()();">funcX실행확인</button> <!--100-->
+    <button onclick="funcY()();">funcY 실행확인</button> <!--undefined-->
+    <button onclick="funcY()(999);">funcY 실행확인</button> <!--99-->
+    <button onclick="funcZ(3)(5);">funcZ 실행확인</button> <!--15-->
+    <button onclick="funcZ()(5);">funcZ 실행확인</button> <!--undefined-->
+    <script>
+        //클로져함수의 변수출력
+        var a = 1;
+        var funcX = function(){
+            var a = 100;
+            return function(){
+                console.log(a);
+            }
+        }
+
+        var b = 9;
+        var funcY = function(){
+            var b = 99;
+            return function(b){
+                console.log(b); // 매개변수
+            }
+        }
+        
+        var funcZ = function(k){
+            return function(num){
+                console.log(k*num);
+            }
+        }	
+    </script>
+
+</body>
+</html>

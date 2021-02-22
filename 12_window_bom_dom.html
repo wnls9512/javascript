@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>window | BOM | DOM</title>
+</head>
+<body>
+    <h1>window | BOM | DOM</h1>
+    <img src="images/windowObjects.png" alt="">
+    
+    <h2>window</h2>
+    <h3>open</h3>
+    <p>새로운 팝업 또는 탭을 열 수 있는 메소드</p>
+    <input type="button" value="실행1" onclick="test1()">
+    <input type="button" value="실행2" onclick="test2()">
+    <input type="button" value="실행3" onclick="test3()">
+
+    <script>
+        function test1(){
+            //부모(현재탭) 자식(새로열린탭) 관계로 정의됨 (<->_black)
+            //open(url, name, spec)
+            
+            //자식팝업의 window객체가 리턴됨
+            // open("11_object.html","myPopup",""); //spec작성 안하면 새 탭(전체창)으로 열림
+            childWindow = window.open("08_array.html", "myPopup", "width=500, height=300, top=300, left=200")
+            console.log(childWindow); //window name = 'myPopup'
+        }
+        
+        let childWindow;
+
+        function test2(){
+            //name으로 찾기때문에, myPopup찾아서 해당 탭으로 열림
+            childWindow = window.open("09_function.html", "myPopup"); 
+            console.log(childWindow);
+        }
+
+        function test3(){
+            //childWindow가 undefined면 해당없음
+            //열려있는 창을 닫기
+            if(childWindow){
+                childWindow.close();
+            }
+        }
+    </script>
+
+    <h3>setTimeout</h3>
+    <p>일정시간 이후에 지정한 콜백함수를 호출(1번)</p>
+    <script>
+     (() => {
+         setTimeout(function(){
+             alert("5초가 지났습니다.");
+            }, 5000); 
+    })();
+    </script>
+
+    <h3>setInterVal | clearInterVal</h3>
+    <p>setInterVal : 일정시간 간격으로 콜백함수를 호출(반복)</p>
+    <p>clearInterVal : 생성된 interval함수를 제거</p>
+
+    <input type="button" value="타이머 실행" onclick="test4()">
+    <div style="margin: 10px 0; text-align: center;">
+        <span id="timer" style="font-size: 3em;"></span>
+    </div>
+
+    <script>
+        function test4(){
+            let count = 10;
+        
+            timer.innerHTML = count;
+            let intervalId = setInterval(function(){                
+                count--;
+                
+                if(count < 0) {
+                    clearInterval(intervalId);
+                    alert("타이머 종료!");
+                    return;
+                }
+
+                timer.innerHTML = count;
+
+            }, 1000);
+
+            console.log("inertvalId : " + intervalId);
+        }
+    </script>
+
+    <h2>BOM</h2>
+    <p>Browser Object Model</p>
+    <h3>navigator</h3>
+    <input type="button" value="실행" onclick="test5();">
+    <div id="area5"></div>
+
+    <script>
+        function test5(){
+            for(let k in navigator){
+                area5.innerHTML += k + " : " + navigator[k] + "<br>";
+            }
+        }
+        </script>
+
+<h3>location</h3>
+    <input type="button" value="실행" onclick="test6();">
+    <input type="button" value="페이지 이동" onclick="location.href = 'https://naver.com'">
+    <input type="button" value="새로고침" onclick="location.reload();">
+    <div id="area6"></div>
+    
+    <script>
+        function test6(){
+            for(let k in location){
+                area6.innerHTML += k + " : " + location[k] + "<br>";
+            }
+        }
+    </script>
+
+    <h3>history</h3>
+    <input type="button" value="실행" onclick="test7();">
+    <input type="button" value="뒤로가기" onclick="history.back()">
+    <input type="button" value="go"" onclick="history.go(-1)">
+    <!-- -1뒤로가기 1앞으로가기 0새로고침 -->
+    <div id="area7"></div>
+    <script>
+        function test7(){
+            for(let k in history){
+                area7.innerHTML += k + " : " + history[k] + "<br>";
+            }
+
+        }
+    </script>
+
+    <h3>screen</h3>
+    <p>웹브라우져의 viewport가 아니라 운영체제 모니터에 대한 객체</p>
+    <input type="button" value="실행" onclick="test8();">
+    <div id="area8"></div>
+    <script>
+        function test8(){
+            for(let k in screen){
+                area8.innerHTML += k + " : " + screen[k] + "<br>";
+            }
+        }
+    </script>
+
+    <h2>DOM</h2>
+    <p>Document Object Model</p>
+    <p>
+        모든 DOM의 객체는 Node객체를 상속받는다
+        firstChild, lastChild, childNodes, nextSibling, previousSibling,
+        contains(), appendChild(), removeChild()
+    </p>
+    <input type="button" value="실행" onclick="test9();">
+    <div id="area9"></div>
+    <script>
+        function test9(){
+            console.log(document);
+            //동적으로 img태그 만들기
+            let imgNode = document.createElement("img");
+            imgNode.src = "https://d.pr/2Wnfza+";
+            imgNode.height = "150";
+            area9.appendChild(imgNode);
+
+            area9.innerHTML += "<img src = 'https://d.pr/2Wnfza+' height = '150'>";
+        }
+
+    </script>
+</body>
+</html>

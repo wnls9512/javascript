@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자와 상호작용</title>
+</head>
+<body>
+    <h1>사용자와 상호작용</h1>
+
+    <ul>
+        <li>alert() : 메세지창에 내용을 띄움</li>
+        <li>console.log() : 개발자도구 화면의 콘솔에 출력</li>
+        <li>confirm() : 어떤 질문에 대해 예/아니오 결과를 얻을 때 사용. 확인(true)/취소(false)</li>
+        <li>prompt() : 텍스트필드와 확인/취소 버튼이 있는 대화창 출력</li>
+        <li>innerHTML : 태그안에 html태그 기록</li>
+        <li>innerText : 태그안에 text 기록</li>
+        
+        <!-- 브라우져내 최상위 객체는 window (생략가능) -->
+    </ul>
+
+    <button type="button" onclick="confirmDel();">삭제</button>
+    <button type="button" onclick="inputUserName();">이름 입력</button>
+
+    <!-- 입력값기록받기용 -->
+    <div id="area"></div>
+    <div id="area1" class="area"></div>
+    <div id="area2" class="area"></div>
+    <style>
+        .area{
+            background-color: darkseagreen;
+            border: 2px solid;
+            min-height: 50px; /*최소높이*/
+            margin: 10px;
+        }
+    </style>
+
+    <script>
+        function inputUserName(){
+            var name = prompt("당신의 이름을 입력하세요.");
+            console.log("[",name,"]");
+           
+            //입력값 없이 확인 누르기 : " " 리턴
+            //취소 누르기 : null 리턴
+            if(name == null){
+                console.log("사용자가 이름입력을 취소했습니다.");
+                return; // 조기 리턴
+            }
+
+            //id값은 페이지내에 유일, id값을 변수로 사용하면 해당태그를 가리킴
+            //ie, chrome등 지원하는 기능(표준아님)
+            // var area1 = document.getElementById("area1");
+            // var area2 = document.getElementById("area2");
+            
+            //innerHTML : 태그안에 html태그 기록하기
+            //innerText : 태그안에 텍스트 기록하기
+            area1.innerHTML = "<h1>"+name+"</h1>";
+            area2.innerText = "<h1>"+name+"</h1>";
+
+            //태그안에 html태그 기록하기 (setter)
+            var area = document.getElementById("area");
+            area.innerHTML = name;
+
+            //getter
+            console.log(area1.innerHTML); //태그포함
+            console.log(area1.innerText); //태그빼고, 텍스트만
+        }
+
+        function confirmDel(){
+            var bool = confirm("정말 삭제하시겠습니까?");
+            //확인 누르면 true 취소 누르면 false
+            if(bool){
+                //삭제로직 진행
+                console.log("삭제 처리!");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>variable_scope</title>
+</head>
+<body>
+    <h1>변수 유효범위</h1>
+
+    <script>
+        //지역변수 : 함수안에 선언된 변수
+        //전역변수 : 함수밖에 선언된 변수. window객체에 속성으로 등록됨
+        var a = '전역변수a';
+        b = '전역변수b';
+
+        function test(){
+            var a = '지역변수a';
+        
+            //가까이있는 지역변수 사용. 가까이있는 변수 없다면 전역변수 사용
+            console.log(a); //지역변수 a
+            console.log(window.a);//전역변수a
+            console.log(this.a);//전역변수a : 함수내에서 this는 전역객체 window를 가리킨다
+
+            c = '함수안에서 var없이 선언된 전역변수c';
+            console.log(window.b);
+            console.log(window.c);
+        }
+        test();
+        console.log(this.c);
+    </script>
+
+    <h2>스코프(유효범위)</h2>
+    <p>
+        자바스크립트는 기본적으로 함수스코프를 가진다.
+    </p>
+
+    <script>
+        var d = 'dddd';
+        if(true){
+            var d = 'abc';
+        }
+        console.log(d); //abc //함수 밖 d와 함수 안 d 같은 공간으로 인식
+
+        function foo(){
+            if(true){
+                var e = 'eeee';
+            }
+            console.log(e);
+        }
+        foo();
+        // console.log(e);
+    </script>
+
+    <h2>let | const</h2>
+    <p>
+        블럭스코프를 지원하는 let | const를 es6에서 사용가능
+        전역변수와 지역변수를 함수 밖/안으로 구분
+    </p>
+    <script>
+        var k = 3;
+        var k = 10; //덮어쓰기 됨
+
+        let m = 20;
+        // let m = 30; //Identifier 'm' has already been declared
+
+        let aname = '홍길동';
+        if(true){
+            let aname = '신사임당';
+            console.log(aname); //신사임당
+        }
+        console.log(aname); //홍길동
+
+        console.log(window.aname); //undefined
+        //let으로 선언된 전역변수는 window객체 속성으로 등록되지 않는다.
+        //메모리상에 별도의 공간을 가진다.
+
+        //블럭스코프를 지원하는 상수
+        const NUM = 100;
+        // NUM = 300; //Assignment to constant variable.
+        if(true){
+            const NUM = 200;
+            console.log(NUM);
+        }
+        console.log(NUM);
+
+    </script>
+
+</body>
+</html>

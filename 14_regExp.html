@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정규표현식</title>
+</head>
+<body>
+    <h1>정규표현식</h1>
+    <p>특정패턴을 지닌 문자열 집합을 검색할 수 있는 형식언어</p>
+    <p>유효성검사, 검색, 문자열대체 등 다양하게 활용</p>
+    <p>
+        일반적 조건문을 사용해서 검사하는 것보다 훨씬 간단하지만, 
+        표현식 숙지가 어렵다
+    </p>
+    <script>
+        let userId = 'abcde1';
+        //정규표현식 객체생성
+        // if(/[0-9]/.test(userId)){
+        //     alert("올바른 아이디 입니다");
+        // } else{
+        //     alert("숫자가 하나 이상 포함되어야 합니다.")
+        // }
+    </script>
+
+    <h2>정규표현식 객체 생성 및 사용</h2>
+    <input type="button" value="실행" id="btn1">
+    <div id="area1"></div>
+    <script>
+        btn1.onclick = () => {
+        //1. new RegExp
+        let regExp1 = new RegExp('script');
+        //2. /정규표현식/
+        let regExp2 = /script/;
+        //3. 혼합
+        let regExp3 = new RegExp(/script/);
+
+        let str = 'java script jquery ajax';
+
+        //정규표현식 객체 메소드 
+        area1.innerHTML += regExp1.test(str) + "<br>";
+
+        //문자열 메소드 : match
+        area1.innerHTML += str.search(regExp1) + "<br>";
+        area1.innerHTML += str.replace(regExp1, '스크립트') + "<br>";
+        area1.innerHTML += str.split(regExp1) + "<br>";
+        
+        //정규표현식에 부합하는 문자열을 가리키는 변수 $&
+        area1.innerHTML += str.replace(regExp1, '<mark>$&</mark>') + "<br>";
+        };
+    </script>
+
+    <h2>플래그문자</h2>
+    <ul>
+        <li>g : 전역비교</li>
+        <li>i : 대소문자를 구분하지 않음</li>
+        <li>m : 줄단위(\n) 검사</li>
+    </ul>
+    <input type="button" value="실행" id="btn2">
+    <div id="area2"></div>
+    <script>
+        btn2.onclick = () =>{
+            // let regExp = /a/; //처음만나는 a만 걸러냄
+            let regExp = /a/gi;
+            let str = "Javascript JQuery Ajax";
+
+            area2.innerHTML = str.replace(regExp, '<mark>$&</mark>');
+        };
+    </script>
+
+    <h2>메타문자</h2>
+    <h3>앵커문자 ^ $</h3>
+    <input type="button" value="실행" id="btn3">
+    <div id="area3"></div>
+    <script>
+        btn3.onclick = () => {
+            let str = "Javascript\nJQuery\nAjax"
+            // let regExp = /^j/gim; //j로시작하는가 
+            let regExp = /y$/gim;  
+            //^ : 시작
+            //$ : 끝
+            //m : 여러행대상
+
+            area3.innerHTML = str.replace(regExp, "<mark>$&</mark>")
+        };
+    </script>
+
+    <h3>한글자 .</h3>
+    <input type="button" value="실행" id="btn4">
+    <div id="area4"></div>
+    <script>
+        btn4.onclick = () => {
+            let regExp = /a.b/g;
+            area4.innerHTML += 'ab'.replace(regExp,'<mark>$&</mark>')  + "<br>";
+            area4.innerHTML += 'afsdfgbgsdg'.replace(regExp,'<mark>$&</mark>')  + "<br>";
+            area4.innerHTML += 'acdb'.replace(regExp,'<mark>$&</mark>')  + "<br>";
+            area4.innerHTML += 'a b'.replace(regExp,'<mark>$&</mark>')  + "<br>";
+
+            let s1 = "going";
+            let s2 = "inner";
+
+            regExp = /in.$/;
+            console.log(regExp.test(s1)); //t
+            console.log(regExp.test(s2)); //f
+            
+            s1 = "xabc";
+            s2 = "abc";
+            
+            regExp = /^.ab/; //임의의 한글자 이후에 ab로 시작하는 단어만 조회
+            console.log(regExp.test(s1)); //t
+            console.log(regExp.test(s2)); //f
+        };
+    </script>
+
+    <h3>@실습문제 : 올바른 주민번호 입력받기</h3>
+    <label for="ssn">주민번호(예: 900909-1234567)</label>
+    <input type="text" id="ssn">
+    <input type="button" value="검사" id="btn5">
+    <script>
+        btn5.onclick = () => {
+            let val = ssn.value;
+            // let regExp = /^......-.......$/;
+            let regExp = /^[0-9][0-9][0-9][0-9][0-9][0-9]-[1234][0-9][0-9][0-9][0-9][0-9][0-9]$/;
+
+            if(regExp.test(val))
+                alert('올바른 주민번호 입니다');
+            else
+                alert('유효한 주민번호를 입력하세요');
+        };
+    </script>
+
+    <h3>[]</h3>
+    <p>임의의 한글자가 올 수 있는 범위를 설정</p>
+    <input type="button" value="실행" id="btn6">
+    <div id="area6"></div>
+    <script>
+        btn6.addEventListener('click', () => {
+            let str = "Javascript JQuery Ajax 12345 한글";
+            // let regExp = /[aj]/gi;
+            // let regExp = /[^aj]/gi; //[]안에 쓰인 ^은 시작이 아닌 반전을 의미
+            // let regExp = /[A-Z]/g; //알파벳대문자
+            // let regExp = /[a-z]/g; //알파벳소문자
+            // let regExp = /[a-zA-z]/g; //알파벳소문자
+            // let regExp = /[0-9]/g; //숫자
+            let regExp = /[가-힣]/g; 
+
+            area6.innerHTML += str.replace(regExp, "<mark>$&</mark>");
+        });
+    </script>
+    <h2>@실습문제: 사용자 아이디가 영문자로 시작하는지 검사</h2>
+    <label for="userId_">아이디</label>
+    <input type="text" id="userId_">
+    <input type="button" value="검사" id="btn7">
+    <script>
+        btn7.addEventListener('click', () => {
+            let str = userId.value;
+            let regExp = /^[a-zA-z]/;
+
+            if(regExp.test(str))
+                alert('유효합니다');
+            else
+                alert('영문자로 시작해야 합니다');
+        });
+    </script>
+
+    <h3>영자, 숫자, 공백문자에 대한 메타문자</h3>
+    <ul>
+        <li>\d 숫자</li>
+        <li>\w 영문자, 숫자, _</li>
+        <li>\s 공백문자(탭\t, 띄어쓰기, 줄바꿈\n)</li>
+    </ul>
+    <ul>
+        <li>\D 숫자 아님</li>
+        <li>\W (영문자, 숫자, _) 아님</li>
+        <li>\S 공백문자(탭\t, 띄어쓰기, 줄바꿈\n) 아님</li>
+    </ul>
+    <input type="button" value="실행" id="btn8">
+    <div id="area8"></div>
+    <script>
+        btn8.addEventListener('click', () => {
+            let s = "A1 B2 c3 d_4 e:5' ffGG77--++__==       가\n나\n다";
+            // // let regExp = /\d/g;
+            // let regExp = /[0-9]/g;
+
+            // // let regExp = /\w/g;
+            // let regExp = /[a-zA-Z0-9_]/g;
+
+            // // let regExp = /\s/g;
+            // let regExp = /[ \t\n]/g;
+            
+            // // let regExp = /\D/g;
+            // let regExp = /[^0-9]/g;
+
+            // // let regExp = /\W/g;
+            // let regExp = /[^a-zA-Z0-9_]/g;
+            
+            // // let regExp = /\S/g;
+            let regExp = /[^ \t\n]/g;
+            
+            area8.innerHTML += "<pre>" + s.replace(regExp, "<mark>$&</mark>") + "</pre>";
+
+        });
+    </script>
+
+    <h3>() |</h3>
+    <p>문자열을 or 연산할 수 있다.</p>
+    <input type="button" id="btn9" value="실행">
+    <div id="area9"></div>
+    <script>
+        btn9.addEventListener('click', () => {
+            let arr = ['일요일이 좋아', '월요일은 월요병', '화요일', 
+                        '수요일', '목요일', '금요일은 불금', '토토로 토요일'];
+            let regExp = /(금요일|토요일|일요일)/;
+            // let regExp = /(금|토|일)요일/;
+            // let regExp = /[금토일]요일/;
+            for(let i in arr){
+                if(regExp.test(arr[i])){
+                    area9.innerHTML += arr[i] + "<br>";
+                }
+            }
+
+        });
+    </script>
+
+    <h3>수량문자</h3>
+    <ul>
+        <li>a* : a가 0개이상 {0,}</li>
+        <li>a+ : a가 1개이상 {1,}</li>
+        <li>a? : a가 0 또는 1개 {0,1}</li>
+    </ul>
+    <input type="button" value="실행" id="btn10">
+    <div id="area10"></div>
+    <script>
+        btn10.onclick = () => {
+            let s = "aabc abc bc";
+            
+            // let regExp = /a*b/g;
+            // let regExp = /a{0,}b/g;
+            
+            // let regExp = /a+b/g;
+            // let regExp = /a{1,}b/g;
+
+            // let regExp = /a?b/g;
+            // let regExp = /a{0,1}b/g;
+
+            let regExp = /a{2}b/g;
+
+            area10.innerHTML = s.replace(regExp, "<mark>$&</mark>");
+        }
+    </script>
+
+    <h3>Escaping</h3>
+    <p>정규표현식 메타문자를 문자 그대로 사용하고 싶은 경우, 이스케이핑처리해야한다.</p>
+    <input type="button" value="실행" id="btn11">
+    <div id="area11"></div>
+    <script>
+        btn11.onclick = () => {
+            let s = "^안*녕!하+세$요?";
+            let regExp = /[\^\*!\+\$\?]/g;
+            area11.innerHTML += s.replace(regExp, "<mark>$&</mark>");
+        };
+
+        </script>
+
+        <h3>@실습문제 : 아이디 유효성 검사</h3>
+        <input type="text" id="memberId" placeholder="아이디">
+        <input type="button" value="검사" id="btn12">
+        <script>
+            btn12.onclick = () => {
+                
+                let val = memberId.value;
+
+                //1.자리수가 8~12자리인가
+                let regExp1 = /^.{8,12}$/;
+                if(!regExp1.test(val)){
+                    alert("아이디는 8~12자리여야 합니다.");
+                    return;
+                }
+                // //2.영문자/숫자가 포함되어 있는가
+                let regExp2 = /[a-zA-z]/;
+                let regExp2_1 = /\d/;
+                if(!(regExp2.test(val) && regExp2_1.test(val))){
+                    alert("영문자/숫자가 포함되어야 합니다");
+                    return;
+                }
+                // //3.특수문자 *!&가 포함되어 있는가
+                let regExp3 = /[\*!&]/;
+                if(!regExp3.test(val)){
+                    alert("특수문자가 포함되어야 합니다");
+                    return;
+                }
+                // //4.알파벳으로 시작하는가
+                let regExp4 = /^[a-zA-z]/g;
+                if(!regExp4.test(val)){
+                    alert("알파벳으로 시작 되어야 합니다");
+                    return;
+                }
+
+                alert("유효한 아이디입니다.");
+            }
+        </script>
+</body>
+</html>

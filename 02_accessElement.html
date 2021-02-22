@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>html 태그 접근하기</title>
+</head>
+<body>
+    <h1>html 태그 접근하기</h1>
+    <ul>
+        <li id="test-id1">안녕1</li>
+        <li id="test-id2" class="test-cls">안녕2</li>
+        <li id="test-id3" class="test-cls">안녕3</li>
+        <li id="test-id4" class="test-cls">안녕4</li>
+        <li id="test-id5">안녕5</li>
+    </ul>
+
+    <!-- <input type="button" value=""> -->
+    <!-- button의 기본 타입은 submit -->
+    <button type="button" onclick="test1();">아이디접근</button>
+    <button type="button" onclick="test2()">태그명접근</button>
+    <button type="button" onclick="test3()">클래스명 접근</button>
+
+    
+    <script>
+        //클래스명으로 접근하기
+        //배열로 리턴. 요소가 1개라도 배열타입으로 리턴된다!
+        function test3(){
+            var cls = document.getElementsByClassName("test-cls");
+            console.log(cls);
+
+            for(var i=0; i<cls.length; i++){
+                cls[i].style.color = "red";
+            }
+        }
+
+        //태그명으로 접근하기
+        //리턴값 : 배열 (중복허용)
+        function test2(){
+            //복수개의 요소가 담긴 유사배열객체가 리턴됨
+            var lis = document.getElementsByTagName("li");
+            console.log(lis);
+            console.log(lis[2]);
+            
+            //반복문
+            for(var i=0; i<lis.length; i++){
+                lis[i].innerHTML = "점심시간" + i; //문자열+숫자 = 문자열
+            }
+        }
+
+        //아이디로 접근하기
+        //리턴 값 : 단일 값 (중복 허용안함)
+        function test1(){
+            var li = document.getElementById("test-id1");
+            console.log(li);
+            console.dir(li);//html tag를 javascript object로 가져옴
+            li.style.backgroundColor = "cyan";
+            li.innerHTML = "안녕하세요";
+        }
+    </script>
+
+    <fieldset>
+        <legend>취미</legend>
+        <input type="checkbox" name="hobby" id="game" value="game">
+        <label for="game">게임</label>
+        <input type="checkbox" name="hobby" id="movie" value="movie">
+        <label for="movie">영화보기</label>
+        <input type="checkbox" name="hobby" id="music" value="music">
+        <label for="music">음악감상</label>
+        <br><br>
+        <button type="button" onclick="test4()">확인</button>
+    </fieldset>
+
+    <script>
+        //name으로 접근하기
+        //리턴 값: 배열 (중복허용)
+        function test4(){
+            var hobbies = document.getElementsByName("hobby");
+            // console.log(hobbies);
+
+            var result = "";
+            for(var i=0; i<hobbies.length; i++){
+                if(hobbies[i].checked == true){
+                    // console.log(hobbies[i].value);
+                    result += hobbies[i].value + " ";
+                }
+            }
+
+            // alert(내용);
+            //내용을 메세지창에 출력한다
+            if(result != ""){
+                alert(result);
+            } else {
+                alert("선택하지 않았습니다");
+            }
+        }
+    </script>
+
+    <h3>@실습문제: 사용자 입력값을 경고창에 띄우기</h3>
+    <label for="userName">이름 : </label>
+    <input type="text" id="userName" class="user-input" name="userName">
+    <button type="button" onclick="test5()">확인</button>
+    <script>
+        function test5(){
+            // 1. id
+            var name = document.getElementById("userName");
+
+            //2. tag
+            // var name = document.getElementsByTagName("input")[3];
+            
+            // 3. classname
+            // var name = document.getElementsByClassName("user-input")[0];
+            
+            //4. name
+            // var name = document.getElementsByName("userName")[0];
+            
+            result = name.value;
+            alert(result);
+        }
+    </script>
+
+</body>
+</html>

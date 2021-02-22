@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>객체</title>
+</head>
+<body>
+    <!-- <h1>객체</h1>
+    <p>key(속성)와 value(속성값)으로 표현</p>
+    <p>key는 키워드사용 또는 문자열로 표현이 가능</p>
+    <script>
+        
+    (() => {
+        //key값으로 사용할 변수명에 공백이나 - 포함시 ""로 묶어주기
+            let product = {
+            "product-Name" : '말린 망고', 
+            type: "피클류",
+            ingredient: ['망고', '설탕'],
+            amount : 10,
+            origin : "필리핀"
+        }
+        
+        //객체 호출하기. key값을 사용. [] 또는 . 으로 접근
+        //특수문자/공백 등이 포함된 키값은 .(객체접근연산자)로 사용 불가
+        console.log(product['product-Name']);
+        console.log(product.type);
+        console.log(product.ingredient[0]);
+        console.log(product.amount);
+        console.log(product.origin);
+
+        //객체의 모든 속성 열람: 일반 for문이 아닌 for..in문 사용
+        //변수 k에 키값이 담긴다
+        for(let key in product){
+            console.log(key+ " : " + product[key]);
+        }
+
+    })();
+
+    console.log('------------------------------');
+
+    //메소드 : 객체의 속성값이 함수인 경우
+    (() => {
+        let dog = {
+            petName : "복실이",
+            eat : function(food) {
+                //객체안의 함수(메소드)에서 다른 속성에 접근하려면,
+                //this키워드를 통해서 접근해야한다.
+                //이때 this는 전역객체 window가 아니다
+                //<this용법3> 객체 안 method에서 this는 현재 객체를 가리킨다
+                console.log(this.petName + "이(가) " + food + "을(를) 맛있게 먹습니다.");
+            }
+        }
+
+        console.log(dog.eat);
+        dog.eat('개껌');
+
+        //속성을 동적으로 추가/삭제할 수 있다
+        dog.weight = 5;
+        delete dog.eat;
+        // delete(dog.eat);
+
+        //toString 오버라이딩
+        dog.toString = function(){
+            return "[" + this.petName + ", " + this.weight + "]";
+        }
+
+        for(let k in dog){
+            console.log(k + " : " + dog[k]);
+        }
+
+        console.log("dog = " + dog);
+        // console.log("dog = " + dog.toString());
+    })();
+    </script>
+
+    <h2>객체배열</h2>
+<script>
+    (() => {
+        //배열선언
+        let pets = [];
+        //배열에 객체 대입
+        pets.push({
+            name : '까미',
+            breed : '요크셔테리어',
+            weight : 3,
+            age : 14
+        });
+        pets.push({
+            name : '짱절미',
+            breed : '치와와',
+            weight : 2,
+            age : 3
+        });
+        pets.push({
+            name : '구리구리',
+            breed : '푸들',
+            weight : 5,
+            age : 10
+        });
+        
+        //배열에 for...in문을 사용하면, 변수에는 인덱스가 들어온다.
+        for(let i in pets){
+            pets[i].bark = function(){
+                if(this.weight >= 5)
+                console.log(this.name + "(이)가 멍멍 짖는다");
+                else
+                console.log(this.name + "(이)가 왈왈 짖는다");
+            }
+        }
+        console.log(pets);
+        
+        for(let i in pets){
+            pets[i].bark();
+        }
+    })();
+</script> -->
+
+    <h2>생성자 함수</h2>
+    <p>new 키워드를 통해 객체를 생성할 수 있는 함수</p>
+    <script>
+        //관례적으로 대문자로 시작
+        function Dog(name, breed, weight, age){
+            //이때 this는 현재 객체를 가리킨다.
+            this.name = name;
+            this.breed = breed;
+            this.weight = weight;
+            this.age = age;
+        }
+
+        // prototype에서 중복된 속성 관리
+        // 각 Dog객체에서 참조형태로 중복된 속성을 가져와 사용할 수 있다
+        //객체명.prototype.메소드명 = function(){};
+        Dog.prototype.bark = function (){
+                if(this.weight >= 5)
+                    console.log(this.name + "(이)가 멍멍 짖는다");
+                    else
+                    console.log(this.name + "(이)가 왈왈 짖는다");       
+            };
+
+        (() => {
+            //배열 선언
+            let pets = [];
+
+            //new키워드를 이용한 객체 생성
+            pets.push(new Dog('구리구리', '푸들', 5, 10));
+            pets.push(new Dog('까미', '요크셔테리어', 3, 14));
+            pets.push(new Dog('짱절미', '치와와', 2, 3));
+
+            for(let i in pets){
+                pets[i].bark();
+            }
+            console.log(pets);
+        })();
+
+        //생성자 함수는 new 사용하지 않으면 this가 window객체를 가리키게 됨
+        // var d = Dog('구리구리', '푸들', 5, 10); 
+        // console.log("d = " + d); //undefined
+</script>
+
+
+</body>
+</html>

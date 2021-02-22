@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>클래스명으로 제어하기</title>
+    <style>
+        .my-font {
+            font-family: "휴먼모음T", "바탕체";
+        }
+        .my-bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>클래스명으로 제어하기</h1>
+
+    <fieldset>
+        <legend>취미</legend>           
+        <input type="checkbox" id="all" onchange="checkAll();">
+        <label class="my-font" for="all">모두선택</label>
+        <hr>
+        <input type="checkbox" name="hobby" id="game" value="game" onchange="checkHobby(this);">
+        <label class="my-font" for="game">게임</label>
+        <input type="checkbox" name="hobby" id="movie" value="movie" onchange="checkHobby(this);">
+        <label class="my-font" for="movie">영화보기</label>
+        <input type="checkbox" name="hobby" id="music" value="music" onchange="checkHobby(this);">
+        <label class="my-font" for="music">음악감상</label>
+    </fieldset>
+
+    <script>
+        // inline속성에서 사용된 this는 element 자신을 가리킨다
+        function checkHobby(elem){
+                            //변수
+            // console.log(elem.nextElementSibling); //다음 형제요소
+            var nextLabel = elem.nextElementSibling;
+
+            //check여부와 상관없이 my-bold가 없으면 붙이고 있으면 냅두고
+            nextLabel.classList.toggle("my-bold");
+
+            /*
+            //체크한경우
+            if(elem.checked == true){
+                // nextLabel.className = "my-font my-bold";
+
+                //특정클래스만 관리할 수 있는 classList속성
+                nextLabel.classList.add("my-bold");
+
+            } else { //체크해제한 경우
+                //ClassName은 공백을 구분자로 클래스명을 관리
+                //기존에 있던 값까지 함께 관리 해야함. 관리 안해주면 ""할때 같이 사라짐
+                // nextLabel.className = "";
+                // nextLabel.className = "my-font";
+            
+                nextLabel.classList.remove("my-bold");
+
+            }
+            */
+
+            /* @실습문제:
+            * 1. 개별체크박스를 모두 선택하면, 모두선택 체크박스 체크
+            * 2. 개별체크박스 하나라도 체크해제하면, 모두선택 체크박스 체크해제
+            * => 개별체크박스의 체크된 개수와 전체개수를 비교
+            */
+
+            var hobbies = document.getElementsByName("hobby");
+
+            var cnt = 0;
+            for(var i=0; i<hobbies; i++){
+                if(hobbies[i].checked == true)
+                cnt++;
+            }
+            if(cnt == hobbies.length)
+                all.checked = true;
+            else
+                all.checked = false;
+
+            // all.checked = (cnt == hobbies.length) ? true : false;
+
+        }
+        function checkAll(){
+            var hobbies = document.getElementsByName("hobby");
+            var all = document.getElementById("all");
+
+            for(var i=0; i<hobbies.length; i++){
+                hobbies[i].checked = all.checked;
+                // if(all.checkAll) true|false(setter) 의 결과에 따라 hobbies(getter)를 바꿔줘라
+            }
+        }
+
+    </script>
+</body>
+</html>

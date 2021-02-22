@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>실습문제_객체</title>
+    <style>
+	.area {
+		min-height:250px;
+		border:1px solid black;
+		background:lightgray;
+	}
+    </style>
+</head>
+<body>
+    <h3>@실습문제</h3>
+	<img src="/images/실습문제_객체_성적테이블.png">
+    <p>
+        1. 위 성적자료를 바탕으로 학생객체(생성자 함수)를 생성해서 콘솔에 출력하세요. <br>
+        각 객체에 총합을 구하는 속성 getSum메소드, 평균을 구하는 속성 getAvg메소드(소수점첫째자리까지), 학생정보를 출력하는 속성 info을 추가하고,
+        #area1에 info메소드를 이용해 출력하세요.
+		
+		<br>
+		학생명, java점수, oracle점수, html5점수, css3점수, javascript점수, 촘점, 평점
+
+        <br>
+        prototype을 이용해서 중복된 함수를 제거하고 동일한 결과를 출력하기
+    </p>
+    <div id="area1" class="area"></div>
+   
+    <script>
+
+        function Student(name, java, oracle, html5, css3, javascript){
+            this.name = name;
+            this.java = java;
+            this.oracle = oracle;
+            this.html5 = html5;
+            this.css3 = css3;
+            this.javascript = javascript;
+        };
+
+        Student.prototype.getSum = function() {
+            return this.java + this.oracle + this.html5 + this.css3 + this.javascript;
+        };
+        Student.prototype.getAvg = function() {
+            return this.getSum()/5;
+        };
+        Student.prototype.info = function() {
+            return "이름="+this.name+", java="+this.java+", oracle="+this.oracle+
+                    ",  html5="+this.html5+", css3="+this.css3+", javascript="+this.javascript+
+                    ", 총점="+this.getSum()+", 평점="+this.getAvg();
+        };
+
+        var students = [];
+        function test1(){
+            students.push(new Student('김동현',90,56,56,44,34));
+            students.push(new Student('유관순',76,34,54,56,22));
+            students.push(new Student('임꺽정',43,77,12,76,34));
+            students.push(new Student('윤봉길',76,88,55,34,54));
+            students.push(new Student('안중근',98,23,76,23,45));
+            students.push(new Student('신사임당',34,33,13,54,45));
+            students.push(new Student('세종대왕',56,56,34,77,32));
+            students.push(new Student('이순신',34,56,34,78,22));
+            students.push(new Student('이황',88,90,99,98,87));
+
+            var area2 = document.getElementById("area1");
+            for (var i in students) {
+               area2.innerHTML += students[i].info()+"<br>"; 
+               console.log(students[i]);
+            };
+        };
+
+        test1();
+    </script>
+</body>
+</html>

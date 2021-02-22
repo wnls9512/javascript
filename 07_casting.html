@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>형변환</title>
+</head>
+<body>
+    <h1>형변환</h1>
+    <h2>문자열과 숫자의 연산</h2>
+    <p>문자열+숫자 = 문자열</p>
+    <p>문자열 - * / % == 숫자 : 문자열이 숫자로 형변환 처리</p>
+    <input type="button" value="확인" onclick="test1();">
+    <script>
+        function test1(){
+            
+            console.log("7" + 7, typeof("7"+7)); //77 String
+
+            //자동형변환
+            console.log("7"-7, typeof("7"-7)); //0 number
+            console.log("7"*7, typeof("7"*7)); //49 number
+            console.log("7"/7, typeof("7"/7)); //1 number
+            console.log("7"%7, typeof("7"%7)); //0 number
+            
+            console.log("7"==7, typeof("7"==7)); //true boolean
+            console.log("7"!=7, typeof("7"!=7)); //false boolean
+
+            //(NaN) Not a Number
+            console.log("7a"-7, typeof("7a"-7)); 
+            
+            //값, 타입까지동일해야 true 리턴 (===)
+            console.log("7"===7, typeof("7"===7)); //false boolean
+            //값, 타입 둘중 하나라도 다르면 true 
+            console.log("7"!==7, typeof("7"!==7)); //true boolean
+
+        }
+    </script>
+    
+    <h2>Number | parseInt | parseFloat</h2>
+    <ul>
+        <li>Number : 숫자리턴, 문자인 경우 NaN을 리턴</li>
+        <li>parseInt : 정수리턴, 좌측부터 형변환 가능한데까지 변환 후 리턴</li>
+        <li>parseFloat : 실수리턴, 좌측부터 형변환 가능한데까지 변환 후 리턴</li>
+    </ul>
+    <input type="button" value="확인" onclick="test2();">
+    <script>
+        function test2(){
+            let money = "100.123원";
+
+            console.log(Number(money));
+            console.log(parseInt(money));
+            console.log(parseFloat(money));
+        }
+    </script>
+    <br>
+    <input type="number" id="num1" placeholder="숫자1">
+    <input type="number" id="num2" placeholder="숫자2">
+    <input type="button" value="더하기 확인" onclick="test3()">
+    
+    <script>
+        //input태그 value속성은 언제나 string
+        function test3(){
+            let num1 = document.getElementById("num1").value;
+            let num2 = document.getElementById("num2").value;
+
+            console.log(Number(num1)+Number(num2));
+            alert(Number(num1)+Number(num2));
+        }
+    </script>
+
+    <h2>논리형으로 형변환</h2>
+    <p>
+        값이 있으면 true로 변환,
+        값이 없으면 false로 변환
+    </p>
+
+    <input type="button" value="확인" onclick="test4();">
+    <script>
+        function test4(){
+            //Boolean(): 전달된 인자를 boolean형으로 변환
+            console.log(Boolean(1)); //t
+            console.log(Boolean(-10)); //t
+            console.log(Boolean("hello")); //t
+            console.log(Boolean("false")); //t
+            console.log(Boolean(document.getElementById("num1"))); //t
+            
+            console.log(Boolean(0)); //f
+            console.log(Boolean("")); //f
+            console.log(Boolean(document.getElementById("num11111"))); //null => f
+            let x;
+            console.log(Boolean(x)); //undefined => f
+
+            if(x){
+                console.log("true 실행!");
+            }else{
+                console.log("flase 실행!");
+            }
+            
+            let elem = document.getElementById("num1");
+            if(elem){
+                console.log("true 실행!");
+            }else{
+                console.log("flase 실행!");
+            }
+
+            //대입연산
+            // a||b a가 존재하면 a 존재하지 않으면 b가 리턴
+            let el = document.getElementById("num11111") || document.getElementById("num2");
+
+            console.log(el);
+
+        }
+    </script>
+</body>
+</html>

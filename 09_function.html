@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>함수</title>
+</head>
+<body>
+    <h1>함수</h1>
+    <ul>
+        <li>함수선언식</li>
+        <li>함수표현식</li>
+        <li>익명함수</li>
+        <li>즉시실행함수</li>
+        <li>화살표함수(ES6)</li>
+    </ul>
+
+    <script>
+        //1. 함수선언식
+        //함수 선언식은 호이스팅되므로 선언부보다 먼저 호출할 수 있다.
+        //호이스팅(hoist): 실제 선언부보다 먼저 끌어올려져 처리되는 것
+        a();
+        function a(){
+            console.log("a 실행!");
+        }
+        //함수호출
+        a();
+
+        //2. 함수표현식 : 함수를 하나의 값으로 취급해 변수에 대입
+        //익명함수
+        //함수명으로 접근하지 않고, 변수로 접근
+        //함수 표현식은 호이스팅되지 않아서 선언부보다 먼저 호출할 수 없다.
+        //반드시 선언 후에 호출해야 한다.
+        // b(); //error
+        let b = function (){
+            console.log("b 실행!");
+        }
+        console.log(b);
+        b();
+
+        //3. 즉시실행함수 Immediately Invoked Function Expression
+        //IIFE 이피
+        //선언과 호출을 동시에
+        (function(){
+            console.log("iify1...");
+        })();
+        
+        (function(){
+            console.log("iify2...");
+        }());
+
+        //매개인자 전달
+        (function(a){
+            console.log(a);
+        })(100);
+    </script>
+
+    <h2>함수 매개변수/매개인자</h2>
+    <input type="button" value="확인0" onclick="test1();">
+    <input type="button" value="확인1" onclick="test1(10);">
+    <input type="button" value="확인2" onclick="test1(20,30);">
+    <input type="button" value="확인3" onclick="test1(30,40,50);">
+    <input type="button" value="확인4" onclick="test1(30,40,50,60);">
+    <input type="button" value="확인5" onclick="test1(30,40,50,60,70);">
+    <script>
+        //함수호출부, 함수선언부의 매개인자, 매개변수는 개수가 맞지 않아도 된다
+        //다만, 초과된 매개인자는 무시된다
+        function test1(a){
+            console.log(a);
+
+            let sum = 0;
+            //호출시 매개인자에 대한 aguments 숨은 참조
+            //유사배열객체
+            for(let i=0; i<arguments.length; i++){
+                console.log(i + ":" + arguments[i]);
+                sum += arguments[i];
+            }
+            console.log(sum);
+            console.log('------------------');
+        }
+    </script>
+
+    <h2>함수의 리턴값</h2>
+    <p>리턴값을 명시하지 않아도 기본적으로 undefined를 리턴한다</p>
+    <script>
+        function test2(){
+            return "Hello world"
+        };
+        function test3(){
+            console.log("test3");
+        };
+
+        test2();
+        test3();
+    </script>
+
+    <h2>내부함수</h2>
+    <p>함수안에 함수를 선언할 수 있고, 외부함수에서만 호출 가능</p>
+    <script>
+        function pita(a,b){
+            
+            function square(x){
+                return x*x;
+            }
+
+            //(밑변^2 * 높이^2)의 제곱근
+            return Math.sqrt(square(a) + square(b));
+        }
+        let result = pita(100,50);
+        // alert(result);
+        // console.log(square(100)); //square is not defined
+    </script>
+
+    <h2>함수고급</h2>
+    <p>자바스크립트에서 함수는 값처럼 취급된다 (일급값)</p>
+    <p>매개인자로 함수전달가능, 리턴값으로 함수전달 가능</p>
+    <script>
+        function test4(f){
+            console.log(f);
+
+            for(let i=0; i<3; i++)
+                f(i); //함수
+        }
+
+        // test4(function(){
+        //     console.log("안녕하세요!");
+        // });
+
+        function hello(n){
+            console.log(n+" - 안녕하세요?");
+        }
+        test4(hello);
+
+        //익명함수 리턴하기
+        function test5(){
+            return function(name){
+                console.log("하이!" + name);
+            }
+        }
+
+        let v = test5();
+        // let v = function(){
+        //         console.log("하이!");
+        //     }
+        console.log(v);
+        v("홍길동");
+
+        test5()("신사임당");
+
+
+        //@실습문제 : 한줄로 호출해서 999를 경고창에 띄우기
+        // function test6(){
+        //     return function(p){
+        //         alert(p);
+        //     }
+        // }
+        // test6()("999");
+
+    </script>
+
+    <script>
+        //@실습문제
+        //1 
+        var z = 50;
+        function varTest(){
+            var z = 55;
+            z += 45;
+            console.log('varTest() : z=',z);    //100
+        }
+        varTest();              
+        console.log('z=',z);   //50
+        //2
+        var y = 99;
+        function varTest2(){
+            var x = 100;
+            var y = 9;
+            z = 1;
+            console.log('varTest2() : x+y+z=',x+y+z);   //110
+        }
+        varTest2();
+        console.log('y+z=',y+z);    //99+1 = 100
+        // console.log('x+y+z=',x+y+z); // x is not defined
+        //3
+        //전역에서 실행한 for문의 내부변수 i
+        for (var i=1; i<=10; i++) {
+            console.log(i); // 1~10까지 출력
+        }
+        function getNum() {
+            console.log('getNum() : i=',i); //11
+        }
+        getNum();
+        
+        //4 
+        function funcX(){
+            var num = 100;
+            return function(){
+                console.log('num=',num); //100
+            }
+        }
+        var num = 200;
+        var myf = funcX();
+        myf();
+        
+    </script>
+        
+    <h2>화살표함수</h2>
+    <p>ES6에 새로추가된 함수표현식</p>
+    <ul>
+        <li>무조건 익명함수</li>
+        <li>생성자함수로 사용될 수 없다</li>
+        <li>함수 내 사용된 this는 무조건 window 객체이다</li>
+        <li>객체내에 메소드로 사용함에 제약이 있다.
+            (this가 현재 객체가 아닌 window를 가리키므로 다른 속성 사용 불가)</li>
+    </ul>
+    <script>
+        //매개변수가 하나인 경우 ()소괄호 생략 가능
+        // let f = () => {
+        // }
+        let f1 = a => {
+            console.log(a*100);
+        }
+        let f2 = (a,b) => {
+            console.log(a*b);
+            console.log(this);//window
+        }
+        f1(3);
+        f2(3,5);
+
+        let f3 = x => x*10;
+        console.log(f3(5));
+
+        (s =>{
+            console.log("화살표함수로 iffe 작성!");
+            console.log(s);
+        })('waaaaaaaaaaaa~~!');
+    </script>
+        
+</body>
+</html>
